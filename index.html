@@ -20,7 +20,6 @@
         .container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             max-width: 650px;
             width: 90%;
             padding: 50px;
@@ -100,7 +99,7 @@
             text-decoration: underline;
         }
 
-        /* Enhanced Success Popup */
+        /* Success Popup */
         .success-popup {
             display: none;
             position: fixed;
@@ -167,9 +166,9 @@
             <button type="submit">Register</button>
         </form>
 
-        <div class="success-popup" id="successPopup">                 
+        <div class="success-popup" id="successPopup">
             <h3>🎉 Registration Successful!</h3>
-            <p>Thank you for registering. We will contact you soon!</p>
+            <p>Thank you for registering!</p>
             <button onclick="document.getElementById('successPopup').style.display='none'">Close</button>
         </div>
     </div>
@@ -180,15 +179,8 @@
         form.onsubmit = function(e) {
             e.preventDefault();
             
-            const level1 = parseInt(document.getElementById('level1').value);
-
-            if (level1 < 40) {
-                alert('Player level must be at least 40.');
-                return;
-            }
-
             const formData = new FormData(form);
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbw002Nt4GJ2MNt7cfYSfCPJjIEvoKuMAEO_MQGia2BrPZG3sm5inTu1nLHXoMVKgzz_/exec';  // Replace with your Google Script URL
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwrudxaY9ZnwFAelTedHx201WQORBuOFHCLQeJCFYlrTIWGHY497DCliLyMhFu6zK6E/exec';  // Replace with your Google Apps Script URL
 
             fetch(scriptURL, {
                 method: 'POST',
