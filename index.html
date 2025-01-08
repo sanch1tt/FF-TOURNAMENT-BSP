@@ -37,6 +37,54 @@
             font-weight: 700;
         }
 
+        .glow-note {
+            font-size: 1.1rem;
+            color: #facc15;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 600;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(250, 204, 21, 1);
+            }
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .qr-btn, .telegram-btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .qr-btn {
+            background: linear-gradient(135deg, #34d399, #059669);
+        }
+
+        .telegram-btn {
+            background: linear-gradient(135deg, #4a90e2, #2563eb);
+        }
+
+        .qr-btn:hover, .telegram-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
         label {
             display: block;
             margin: 15px 0 8px;
@@ -61,15 +109,6 @@
             box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        input:focus {
-            border: 1px solid #3b82f6;
-            box-shadow: 0 0 12px rgba(74, 144, 226, 0.7);
-        }
-
         button {
             background: linear-gradient(135deg, #2563eb, #1d4ed8);
             color: white;
@@ -81,34 +120,6 @@
         button:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 30px rgba(59, 130, 246, 0.5);
-        }
-
-        .qr-btn, .telegram-btn {
-            margin: 20px 0;
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #34d399, #059669);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .qr-btn:hover, .telegram-btn:hover {
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
-            transform: translateY(-3px);
-        }
-
-        .telegram-btn {
-            background: linear-gradient(135deg, #4a90e2, #2563eb);
-        }
-
-        .note {
-            margin: 30px 0;
-            font-size: 1rem;
-            color: #94a3b8;
         }
 
         .terms {
@@ -132,6 +143,13 @@
             text-decoration: underline;
         }
 
+        @media (max-width: 768px) {
+            .btn-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
         .success-popup {
             display: none;
             position: fixed;
@@ -152,22 +170,19 @@
 
 <body>
     <div class="container">
+        <div class="glow-note">
+            Join our Telegram for match details and direct communication with the organizers.
+        </div>
+
+        <div class="btn-container">
+            <button class="qr-btn" onclick="window.open('https://i.ibb.co/DVp1v6G/Whats-App-Image-2025-01-07-at-20-16-27-371b714b.jpg', '_blank')">Scan QR for Payment</button>
+            <button class="telegram-btn" onclick="window.open('https://t.me/fftournamentbsp', '_blank')">Join Telegram</button>
+        </div>
+
         <h2>Tournament Registration</h2>
         <form id="registrationForm">
             <label for="contact">Contact No</label>
             <input type="text" id="contact" name="contact" required pattern="\d{10}" placeholder="Enter 10-digit number">
-
-            <label for="player1">Player 1 UID</label>
-            <input type="text" id="player1" name="player1" required placeholder="Player 1 UID">
-            
-            <label for="level1">Player 1 Level (Min 40)</label>
-            <input type="number" id="level1" name="level1" required min="40" placeholder="Player 1 Level">
-
-            <label for="player2">Player 2 UID</label>
-            <input type="text" id="player2" name="player2" required placeholder="Player 2 UID">
-            
-            <label for="level2">Player 2 Level (Min 40)</label>
-            <input type="number" id="level2" name="level2" required min="40" placeholder="Player 2 Level">
 
             <label for="transaction">Transaction ID</label>
             <input type="text" id="transaction" name="transaction" required placeholder="Transaction ID">
@@ -182,20 +197,13 @@
 
             <button type="submit">Register</button>
         </form>
+    </div>
 
-        <button class="qr-btn" onclick="window.open('https://i.ibb.co/DVp1v6G/Whats-App-Image-2025-01-07-at-20-16-27-371b714b.jpg', '_blank')">Scan QR for Payment</button>
-        <button class="telegram-btn" onclick="window.open('https://t.me/fftournamentbsp', '_blank')">Join Telegram</button>
-
-        <div class="note">
-            Join our Telegram for match details and direct communication with the organizers.
-        </div>
-
-        <!-- Success Popup -->
-        <div class="success-popup" id="successPopup">
-            <h3>🎉 Registration Successful!</h3>
-            <p>Thank you for registering. We will contact you soon!</p>
-            <button onclick="document.getElementById('successPopup').style.display='none'">Close</button>
-        </div>
+    <!-- Success Popup -->
+    <div class="success-popup" id="successPopup">
+        <h3>🎉 Registration Successful!</h3>
+        <p>Thank you for registering. We will contact you soon!</p>
+        <button onclick="document.getElementById('successPopup').style.display='none'">Close</button>
     </div>
 
     <script>
