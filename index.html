@@ -19,78 +19,108 @@
 
         .container {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            width: 95%;
-            max-width: 500px;
-            padding: 25px;
+            backdrop-filter: blur(20px);
+            max-width: 95%;
+            width: 100%;
+            padding: 15px;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         h2 {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 1.8rem;
             color: #e2e8f0;
+            font-weight: 700;
         }
 
         label {
             display: block;
             margin: 10px 0 5px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #cbd5e1;
             text-align: left;
         }
 
         input, button {
-            width: calc(100% - 20px);
-            padding: 12px;
+            width: 100%;
+            padding: 10px;
             margin-bottom: 15px;
             border-radius: 8px;
-            font-size: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            font-size: 0.9rem;
+            border: none;
             outline: none;
-            transition: border 0.3s ease;
         }
 
-        input:focus {
-            border: 1px solid #60a5fa;
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
         input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
 
+        input:focus {
+            border: 1px solid #3b82f6;
+            box-shadow: 0 0 8px rgba(74, 144, 226, 0.7);
+        }
+
         button {
-            background: #2563eb;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s;
-            border: none;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.5);
         }
 
-        .qr-btn {
-            background: #22c55e;
+        .qr-btn, .telegram-btn {
+            margin: 15px 0;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #34d399, #059669);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qr-btn:hover, .telegram-btn:hover {
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .telegram-btn {
+            background: linear-gradient(135deg, #4a90e2, #2563eb);
+        }
+
+        .note {
+            margin: 20px 0;
+            font-size: 0.8rem;
+            color: #94a3b8;
         }
 
         .terms {
             display: flex;
             align-items: center;
             justify-content: start;
-            margin: 15px 0;
+            margin: 20px 0;
+            font-size: 0.8rem;
         }
 
         .terms input {
             width: auto;
-            margin-right: 10px;
+            margin-right: 8px;
         }
 
         .terms a {
@@ -102,25 +132,42 @@
             text-decoration: underline;
         }
 
-        .note {
-            margin-top: 15px;
-            font-size: 0.95rem;
-            color: #94a3b8;
+        .success-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            color: white;
+            z-index: 1000;
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-
+        @media screen and (max-width: 480px) {
             h2 {
                 font-size: 1.5rem;
             }
 
-            input, button {
-                width: calc(100% - 20px);
-                padding: 12px;
+            input, button, .qr-btn, .telegram-btn {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            label {
+                font-size: 0.8rem;
+            }
+
+            .note, .terms {
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -135,13 +182,13 @@
 
             <label for="player1">Player 1 UID</label>
             <input type="text" id="player1" name="player1" required placeholder="Player 1 UID">
-
+            
             <label for="level1">Player 1 Level (Min 40)</label>
             <input type="number" id="level1" name="level1" required min="40" placeholder="Player 1 Level">
 
             <label for="player2">Player 2 UID</label>
             <input type="text" id="player2" name="player2" required placeholder="Player 2 UID">
-
+            
             <label for="level2">Player 2 Level (Min 40)</label>
             <input type="number" id="level2" name="level2" required min="40" placeholder="Player 2 Level">
 
@@ -160,9 +207,12 @@
         </form>
 
         <button class="qr-btn" onclick="window.open('https://i.ibb.co/DVp1v6G/Whats-App-Image-2025-01-07-at-20-16-27-371b714b.jpg', '_blank')">Scan QR for Payment</button>
+        <button class="telegram-btn" onclick="window.open('https://t.me/fftournamentbsp', '_blank')">Join Telegram</button>
+
         <div class="note">
             Join our Telegram for match details and direct communication with the organizers.
         </div>
+
         <!-- Success Popup -->
         <div class="success-popup" id="successPopup">
             <h3>🎉 Registration Successful!</h3>
