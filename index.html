@@ -192,9 +192,9 @@
             <label for="level2">Player 2 Level (Min 40)</label>
             <input type="number" id="level2" name="level2" required min="40" placeholder="Player 2 Level">
 
-            <label for="upi">Enter Your UPI ID</label>
-            <input type="text" id="upi" name="upi" required pattern=".*@.*" placeholder="Enter valid UPI ID">
-            
+            <label for="upi">Enter UPI ID</label>
+            <input type="text" id="upi" name="upi" required pattern="^[\w.-]+@[\w.-]+$" placeholder="Enter valid UPI ID">
+
             <div class="terms">
                 <input type="checkbox" id="terms" required>
                 <label for="terms">
@@ -227,55 +227,7 @@
             e.preventDefault();
             
             const formData = new FormData(form);
-            const scriptURL = 'function doPost(e) {
-      const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-          const params = e.parameter;
-
-              // Get all existing data in the sheet
-                  const data = sheet.getDataRange().getValues();
-                      const headers = data[0];
-                          const upiIndex = headers.indexOf('UPI');
-
-                              // Check if UPI ID already exists
-                                  const isDuplicate = data.some(row => row[upiIndex] == params.upi);
-
-                                      if (isDuplicate) {
-                                              return ContentService
-                                                          .createTextOutput(JSON.stringify({ success: false, message: 'UPI ID already registered.' }))
-                                                                      .setMimeType(ContentService.MimeType.JSON);
-                                                                          }
-
-                                                                              // Validate UPI ID format (must contain '@')
-                                                                                  if (!params.upi.includes('@')) {
-                                                                                          return ContentService
-                                                                                                      .createTextOutput(JSON.stringify({ success: false, message: 'Invalid UPI ID format. Must contain "@".' }))
-                                                                                                                  .setMimeType(ContentService.MimeType.JSON);
-                                                                                                                      }
-
-                                                                                                                          // Validate Minimum Level Requirement (40 or Above)
-                                                                                                                              if (params.level1 < 40 || params.level2 < 40) {
-                                                                                                                                      return ContentService
-                                                                                                                                                  .createTextOutput(JSON.stringify({ success: false, message: 'Player levels must be at least 40.' }))
-                                                                                                                                                              .setMimeType(ContentService.MimeType.JSON);
-                                                                                                                                                                  }
-
-                                                                                                                                                                      // Append the new row if all checks pass
-                                                                                                                                                                          sheet.appendRow([
-                                                                                                                                                                                  params.contact,
-                                                                                                                                                                                          params.upi,
-                                                                                                                                                                                                  params.player1,
-                                                                                                                                                                                                          params.level1,
-                                                                                                                                                                                                                  params.player2,
-                                                                                                                                                                                                                          params.level2
-                                                                                                                                                                                                                              ]);
-
-                                                                                                                                                                                                                                  // Return success response
-                                                                                                                                                                                                                                      return ContentService
-                                                                                                                                                                                                                                              .createTextOutput(JSON.stringify({ success: true }))
-                                                                                                                                                                                                                                                      .setMimeType(ContentService.MimeType.JSON);
-                                                                                                                                                                                                                                                      }
-
-';  // Replace with your Google Apps Script URL
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxhiGxVequEXDxaglLWARjQd-CDzx4jSqjioArxekVZ02BvbPUeAkdUSDu4wmbqlb1M/exec';  // Replace with your Google Apps Script URL
 
             fetch(scriptURL, {
                 method: 'POST',
