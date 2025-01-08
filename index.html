@@ -192,8 +192,8 @@
             <label for="level2">Player 2 Level (Min 40)</label>
             <input type="number" id="level2" name="level2" required min="40" placeholder="Player 2 Level">
 
-            <label for="transaction">Transaction ID</label>
-            <input type="text" id="transaction" name="transaction" required placeholder="Transaction ID">
+            <label for="upi">Enter Your UPI ID</label>
+            <input type="text" id="upi" name="upi" required pattern=".+@.+\..+" placeholder="Enter valid UPI ID">
 
             <div class="terms">
                 <input type="checkbox" id="terms" required>
@@ -227,7 +227,7 @@
             e.preventDefault();
             
             const formData = new FormData(form);
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbz5C5ZdzKke9zMoKfScURLsOr8IbgzapFuOF9sQC29mjlopIeD0TQzdRZlbzQIRsNUE/exec';  // Replace with Google Apps Script URL
+            const scriptURL = 'https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec';  // Replace with your Google Apps Script URL
 
             fetch(scriptURL, {
                 method: 'POST',
@@ -247,4 +247,3 @@
     </script>
 </body>
 </html>
-
