@@ -3,9 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Fire Tournament Registration</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Tournament Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #3a3d5c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            max-width: 600px;
+            width: 90%;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1e1e2f;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        .terms {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin: 20px 0;
+        }
+
+        .terms input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .terms a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
+        }
+
+        .success-popup {
+            display: none;
+            background-color: #4caf50;
+            color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h2>Register for the Tournament</h2>
@@ -16,14 +109,14 @@
             <label for="player1">Player 1 UID</label>
             <input type="text" id="player1" name="player1" required placeholder="Player 1 UID">
             
-            <label for="level1">Level</label>
-            <input type="number" id="level1" name="level1" required placeholder="Level">
+            <label for="level1">Player 1 Level (Min 40)</label>
+            <input type="number" id="level1" name="level1" required min="40" placeholder="Player 1 Level">
 
             <label for="player2">Player 2 UID</label>
             <input type="text" id="player2" name="player2" required placeholder="Player 2 UID">
             
-            <label for="level2">Level</label>
-            <input type="number" id="level2" name="level2" required placeholder="Level">
+            <label for="level2">Player 2 Level (Min 40)</label>
+            <input type="number" id="level2" name="level2" required min="40" placeholder="Player 2 Level">
 
             <label for="transaction">Transaction ID</label>
             <input type="text" id="transaction" name="transaction" required placeholder="Transaction ID">
@@ -47,8 +140,18 @@
 
         form.onsubmit = function(e) {
             e.preventDefault();
+            
+            // Minimum Level Validation
+            const level1 = parseInt(document.getElementById('level1').value);
+            const level2 = parseInt(document.getElementById('level2').value);
+
+            if (level1 < 40 || level2 < 40) {
+                alert('Player levels must be at least 40.');
+                return;
+            }
+
             const formData = new FormData(form);
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwm00my3w_YUixzX_TWakqpr4kwehp4hJaQgV938VEAtwj9cJgzjbP4Qq7tlvgrbPq9/exec';  // Paste your Google Script URL here
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbw002Nt4GJ2MNt7cfYSfCPJjIEvoKuMAEO_MQGia2BrPZG3sm5inTu1nLHXoMVKgzz_/exec';  // Replace with your Google Script URL
 
             fetch(scriptURL, {
                 method: 'POST',
@@ -59,6 +162,8 @@
                 if (data.success) {
                     document.getElementById('successPopup').style.display = 'block';
                     form.reset();
+                } else {
+                    alert(data.message);
                 }
             })
             .catch(() => alert('Error submitting form.'));
