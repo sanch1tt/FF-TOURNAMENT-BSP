@@ -178,19 +178,19 @@
         <h2>Tournament Registration</h2>
         <form id="registrationForm">
             <label for="contact">Contact No</label>
-            <input type="text" id="contact" name="contact" required pattern="\d{10}" placeholder="Enter 10-digit number">
-
+            <input type="text" id="contact" name="contact" required pattern="^[6-9]\d{9}$" placeholder="Enter 10-digit number starting with 6, 7, 8, or 9">
+            
             <label for="player1">Player 1 UID</label>
-            <input type="text" id="player1" name="player1" required placeholder="Player 1 UID">
+            <input type="text" id="player1" name="player1" required pattern="^\d{9,12}$" placeholder="Enter 9-12 digit Player 1 UID">
             
-            <label for="level1">Player 1 Level (Min 40)</label>
-            <input type="number" id="level1" name="level1" required min="40" placeholder="Player 1 Level">
-
+            <label for="level1">Player 1 Level (40-99)</label>
+            <input type="number" id="level1" name="level1" required min="40" max="99" placeholder="Player 1 Level">
+            
             <label for="player2">Player 2 UID</label>
-            <input type="text" id="player2" name="player2" required placeholder="Player 2 UID">
+            <input type="text" id="player2" name="player2" required pattern="^\d{9,12}$" placeholder="Enter 9-12 digit Player 2 UID">
             
-            <label for="level2">Player 2 Level (Min 40)</label>
-            <input type="number" id="level2" name="level2" required min="40" placeholder="Player 2 Level">
+            <label for="level2">Player 2 Level (40-99)</label>
+            <input type="number" id="level2" name="level2" required min="40" max="99" placeholder="Player 2 Level">
 
             <label for="upi">Enter Your UPI ID</label>
             <input type="text" id="upi" name="upi" required pattern="^[\w.-]+@[\w.-]+$" placeholder="Enter Your Own UPI ID Here">
