@@ -203,11 +203,8 @@
                 </label>
             </div>
 
-            <button type="submit">Register</button>
+            <button type="button" id="payAndRegister">Register & Pay</button>
         </form>
-
-        <button class="qr-btn" onclick="window.open('https://i.ibb.co/DVp1v6G/Whats-App-Image-2025-01-07-at-20-16-27-371b714b.jpg', '_blank')">Scan QR for Payment</button>
-        <button class="telegram-btn" onclick="window.open('https://t.me/fftournamentsbsp', '_blank')">[Must] Join Telegram</button>
 
         <div class="note">
             Join our Telegram for match details and direct communication with the organizers.
@@ -222,27 +219,39 @@
 
     <script>
         const form = document.getElementById('registrationForm');
+        const payAndRegisterButton = document.getElementById('payAndRegister');
 
-        form.onsubmit = function(e) {
-            e.preventDefault();
+        payAndRegisterButton.onclick = async function () {
+            if (!form.reportValidity()) return; // Validate form fields first
             
             const formData = new FormData(form);
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbziGiEMS4wRmxd3Bv1o_SFdCjBZR274g7LmUkr99J84-zKVsafZmhB2FboKAXq0W_I9/exec';  // Replace with your Google Apps Script URL
-
-            fetch(scriptURL, {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbziGiEMS4wRmxd3Bv1o_SFdCjBZR274g7LmUkr99J84-zKVsafZmhB2FboKAXq0W_I9/exec'; // Replace with your Google Apps Script URL
+            
+            // Save registration data
+            const registrationResponse = await fetch(scriptURL, {
                 method: 'POST',
                 body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('successPopup').style.display = 'block';
-                    form.reset();
-                } else {
-                    alert(data.message);  // Alert if duplicate or error
-                }
-            })
-            .catch(() => alert('Error submitting form. Please try again.'));
+            }).then(res => res.json());
+
+            if (registrationResponse.success) {
+                // Redirect to UPI payment
+                const upiLink = 'upi://pay?pa=yesmaya123@okhdfcbank&pn=Maya%20Maya&aid=uGICAgKC8jZrUAw';
+                window.location.href = upiLink;
+
+                // Poll for payment status
+                setTimeout(() => {
+                    // Simulating payment status check after 10 seconds (replace with actual API call)
+                    const isPaymentComplete = confirm("Have you completed the payment?");
+                    
+                    if (isPaymentComplete) {
+                        document.getElementById('successPopup').style.display = 'block';
+                    } else {
+                        alert("Payment not verified. Please try again.");
+                    }
+                }, 10000);
+            } else {
+                alert(registrationResponse.message); // Display error from Apps Script
+            }
         };
     </script>
 </body>
